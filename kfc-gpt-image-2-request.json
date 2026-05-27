@@ -1,0 +1,7 @@
+{
+  "model": "gpt-image-2",
+  "prompt": "生成一张边牧与古牧正在抖音直播间直播带货截图",
+  "image": [],
+  "size": "1152x2048",
+  "response_format": "url"
+}

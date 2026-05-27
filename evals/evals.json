@@ -1,0 +1,29 @@
+{
+  "skill_name": "product-video-pipeline",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "@github/skills/product-video-pipeline/SKILL.md 这是易纸箱宣传片脚本：开头讲仓库每天手工登记纸箱型号，订单一多就找不到库存；采购靠微信群确认价格，经常漏单；月底老板问成本，财务还要翻表格。后半段介绍易纸箱可以统一管理库存、采购、报价和订单。请按这个技能生成完整视频生产资料，但先不要实际调用即梦。",
+      "expected_output": "应按 SKILL.md 路由读取 analysis-editing、prompt-spec 和 jianying-plan，并根据 provider-aware 流程处理媒体生成；创建 01-analysis.md、02-prompts.json、asset-manifest.json、jianying-draft-plan.md；提示词为中文写实风格，只覆盖痛点段；02-prompts.json 每条包含 aspect_ratio=9:16 和 image_size=1152x2048；video_prompt 不写首帧路径或视频时长；首帧对应关系由 image_file、video_file、asset-manifest.json 和 03-media-commands.md 表达；duration_seconds 按旁白估算；因用户只是说先不要实际调用即梦，不能把它误解为选择 dreamina-cli 生图 provider；当用户要求完整视频生产资料/命令清单但未指定生图 provider 时，应先询问选择 gpt-image-2 还是 dreamina-cli，不要生成具体 provider 命令或实际调用；用户选择后再生成 03-media-commands.md；生视频默认 kling-api。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "帮我做一个易纸箱宣传视频，风格高级一点，直接开始吧。",
+      "expected_output": "应先索要产品脚本、旁白稿、卖点列表或确认是否需要先起草脚本，而不是凭空生成完整项目。",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我有一段易纸箱产品介绍：纸箱厂报价慢、客户催单、生产进度不透明、业务和车间反复电话确认。后面卖点是手机接单、进度同步、报价模板和客户跟进。请生成痛点镜头的 AI 生图/图生视频提示词，并给我 dreamina 命令清单；如果 CLI 没装，也要能让我复制命令执行。",
+      "expected_output": "应生成痛点分析、合法 JSON 提示词、asset-manifest.json 和 03-media-commands.md；将 dreamina-cli 视为用户明确指定的生图命令 provider；02-prompts.json 每条包含 aspect_ratio=9:16 和 image_size=1152x2048；即梦 text2image 命令使用 --ratio=9:16 和 --resolution_type=2k；图片下载后按痛点 ID 重命名；如同时输出即梦/Dreamina/Seedance/CLI 图生视频命令，image2video 的 --image 使用重命名后的首帧路径，--duration 使用估算时长，并明确包含 --model_version=seedance2.0fast 和 --video_resolution=720p。",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "按这个易纸箱脚本实际生成痛点镜头素材：老板问库存，仓库说要翻半天；客户催交期，业务只能一通通电话问车间；月底对账，财务和销售数字对不上。每句字幕长短不一样，请不要统一 5 秒，按旁白语速给每个镜头算时长，并说明生视频首帧对应哪张图。",
+      "expected_output": "应读取 prompt-spec；为每个痛点生成合理估算的 duration_seconds 和 duration_basis；02-prompts.json 每条包含 aspect_ratio=9:16 和 image_size=1152x2048；video_prompt 只描述画面运动、人物微动作、环境动态和情绪变化；生视频首帧对应关系在 image_file、03-media-commands.md 或剪映草稿首帧图片列中体现；由于用户要求实际生成素材但没有指定生图 provider，应先询问选择 gpt-image-2 还是 dreamina-cli，不应直接调用外部生成；若之后需要命令清单，应输出 03-media-commands.md；生视频默认 kling-api；剪映草稿表包含首帧图片列。",
+      "files": []
+    }
+  ]
+}

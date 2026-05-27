@@ -1,0 +1,39 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "pain_point",
+      "pain_summary",
+      "image_file",
+      "video_file",
+      "image_prompt",
+      "video_prompt",
+      "subtitle",
+      "duration_seconds",
+      "duration_basis",
+      "style",
+      "aspect_ratio",
+      "image_size"
+    ],
+    "properties": {
+      "id": { "type": "string", "pattern": "^pain-[0-9]{2}$" },
+      "pain_point": { "type": "string" },
+      "pain_summary": { "type": "string" },
+      "image_file": { "type": "string", "pattern": "^images/pain-[0-9]{2}\\.(png|jpg|jpeg|webp)$" },
+      "video_file": { "type": "string", "pattern": "^videos/pain-[0-9]{2}\\.mp4$" },
+      "image_prompt": { "type": "string" },
+      "video_prompt": { "type": "string" },
+      "subtitle": { "type": "string" },
+      "duration_seconds": { "type": "integer", "minimum": 3, "maximum": 15 },
+      "duration_basis": { "type": "string" },
+      "style": { "type": "string" },
+      "aspect_ratio": { "const": "9:16" },
+      "image_size": { "const": "1152x2048" }
+    },
+    "not": {
+      "required": ["voiceover"]
+    }
+  }
+}
