@@ -1,11 +1,11 @@
 ---
 name: kling-api
-description: 易纸箱视频流程中默认使用可灵 API 图生视频的执行规范，定义生成前检查、JWT 鉴权、请求字段、任务查询、下载和 manifest 回填规则。
+description: 易纸箱视频流程中用户明确指定可灵 API 图生视频时的执行规范，定义生成前检查、JWT 鉴权、请求字段、任务查询、下载和 manifest 回填规则。
 ---
 
 # 可灵 API 图生视频执行规范
 
-本文件用于 `product-video-pipeline` 的默认生视频 provider。除非用户明确指定即梦/Dreamina/Seedance/CLI 生视频，否则图生视频按可灵 API 路径执行。
+本文件只在用户明确指定可灵、Kling 或 API 生视频时读取。未指定生视频 provider 时，默认按 `dreamina-cli` 路径执行。
 
 官方文档来源：`https://klingai.com/document-api/apiReference/model/imageToVideo`、`https://klingai.com/document-api/apiReference/commonInfo`。
 
