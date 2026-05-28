@@ -41,9 +41,10 @@ outputs/<project>/
 
 ```text
 outputs/<project>/jianying-draft/
-├── draft_content.json 或工具生成的等价草稿文件
-├── draft_meta_info.json 或工具生成的等价草稿文件
-└── materials/
+├── timeline.json
+├── draft_content.json 或工具生成的等价草稿文件（仅真实草稿工具可用时）
+├── draft_meta_info.json 或工具生成的等价草稿文件（仅真实草稿工具可用时）
+└── materials/（仅真实草稿工具可用时）
 ```
 
 ## 生成规则

@@ -58,7 +58,7 @@ dreamina user_credit
 
 ## 图生视频执行规则
 
-只有用户指定 `dreamina-cli` 视频 provider 时，对每张已生成图片，结合对应的 `video_prompt` 和 `duration_seconds` 调用 `dreamina image2video`。
+未指定生视频 provider 或用户选择 `dreamina-cli` 视频 provider 时，对每张已生成图片，结合对应的 `video_prompt` 和 `duration_seconds` 调用 `dreamina image2video`。
 
 `--image` 必须使用重命名后的 `image_file`，不要使用即梦返回的原始文件名。
 
