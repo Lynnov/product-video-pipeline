@@ -36,7 +36,13 @@
       "video_task_id": { "type": ["string", "null"] },
       "video_original_url": { "type": ["string", "null"] },
       "video_original_file": { "type": ["string", "null"] },
-      "video_actual_duration_seconds": { "type": ["number", "null"] }
+      "video_actual_duration_seconds": { "type": ["number", "null"] },
+      "subtitle_file": { "type": ["string", "null"] },
+      "audio_file": { "type": ["string", "null"] },
+      "image_approved": { "type": "boolean" },
+      "image_revision_prompt": { "type": ["string", "null"] },
+      "jianying_clip_start_seconds": { "type": ["number", "null"] },
+      "jianying_clip_duration_seconds": { "type": ["number", "null"] }
     },
     "additionalProperties": false
   }
