@@ -119,15 +119,15 @@ outputs/<project>/
 - `subtitle` 即该镜头旁白，用于估算 `duration_seconds`；不要单独创建 `voiceover` 字段。
 - `duration_seconds` 按 `subtitle` 语速估算，不固定为 5 秒。
 - 实际生成素材时必须维护 `asset-manifest.json`，回填 image/video provider、model、task ID、远端 URL 或原始文件名。
-- 未指定 provider 时，生图是否默认 `gpt-image-2`。
-- 未指定 provider 时，生视频是否默认 `dreamina-cli`。
-- 是否先生成全部图片并等待用户确认，而不是直接继续生成视频。
-- 用户不满意图片且未给修改意见时，是否使用原提示词重生成。
-- 用户不满意图片且给了修改意见时，是否将修改意见合并进提示词后重生成。
-- 是否只在全部图片确认后才生成视频。
+- 未指定 provider 时，生图默认使用 `gpt-image-2`。
+- 未指定 provider 时，生视频默认使用 `dreamina-cli`。
+- 必须先生成全部图片并等待用户确认，不要直接继续生成视频。
+- 用户不满意图片且未给修改意见时，必须使用原提示词重生成。
+- 用户不满意图片且给了修改意见时，必须将修改意见合并进提示词后重生成。
+- 只在全部图片确认后才生成视频。
 - 使用 `dreamina-cli` 视频 provider 时，即梦图生视频路径必须包含 `--model_version=seedance2.0fast` 和 `--video_resolution=720p`。
 - 没有剪映 MCP 时，只输出剪映草稿拼接方案，不声称已经创建草稿。
-- 是否没有在草稿工具不可用时声称已经创建剪映草稿。
+- 草稿工具不可用时，不要声称已经创建剪映草稿。
 
 ## 完成前自检
 
