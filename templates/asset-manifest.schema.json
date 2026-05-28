@@ -37,6 +37,7 @@
       "video_task_id": { "type": ["string", "null"] },
       "video_original_url": { "type": ["string", "null"] },
       "video_original_file": { "type": ["string", "null"] },
+      "subtitle": { "type": "string" },
       "subtitle_file": { "type": ["string", "null"] },
       "audio_file": { "type": ["string", "null"] },
       "image_approved": { "type": "boolean" },

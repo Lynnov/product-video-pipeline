@@ -6,10 +6,21 @@ import pytest
 from create_jianying_draft import build_timeline, create_draft, export_srt, load_manifest
 
 
+SCHEMA_PATH = Path(__file__).resolve().parents[1] / "templates" / "asset-manifest.schema.json"
+
+
 def write_manifest(project_dir: Path, items: list[dict]) -> Path:
     path = project_dir / "asset-manifest.json"
     path.write_text(json.dumps(items, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
+
+
+def test_asset_manifest_schema_allows_subtitle_on_items():
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    item_schema = schema["items"]
+
+    assert item_schema["additionalProperties"] is False
+    assert item_schema["properties"]["subtitle"] == {"type": "string"}
 
 
 def test_load_manifest_requires_all_images_approved(tmp_path: Path):
