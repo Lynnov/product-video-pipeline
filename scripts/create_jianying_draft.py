@@ -54,6 +54,14 @@ def export_srt(timeline: list[dict[str, Any]], output_path: Path) -> None:
     output_path.write_text("\n\n".join(blocks) + "\n", encoding="utf-8")
 
 
+def create_draft(project_dir: Path, timeline: list[dict[str, Any]]) -> Path:
+    draft_dir = project_dir / "jianying-draft"
+    draft_dir.mkdir(parents=True, exist_ok=True)
+    timeline_path = draft_dir / "timeline.json"
+    timeline_path.write_text(json.dumps(timeline, ensure_ascii=False, indent=2), encoding="utf-8")
+    return draft_dir
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("project_dir", type=Path)
@@ -63,6 +71,8 @@ def main() -> None:
     items = load_manifest(manifest_path)
     timeline = build_timeline(items)
     export_srt(timeline, args.project_dir / "subtitles" / "draft.srt")
+    draft_dir = create_draft(args.project_dir, timeline)
+    print(f"draft inputs written to {draft_dir}")
     print(json.dumps(timeline, ensure_ascii=False, indent=2))
 
 
