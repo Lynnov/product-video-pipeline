@@ -26,8 +26,8 @@ product-video-pipeline/
 │   ├── analysis-editing.md                 # 痛点分析和剪辑思路参考：生成 01-analysis.md
 │   ├── prompt-spec.md                       # 提示词规范：中文写实风格、JSON 字段、image_size、首帧命名和时长估算
 │   ├── gpt-image-api.md                     # KFC V50 三方 gpt-image-2 生图接口参考：首帧文生图、尺寸、下载和 manifest 回填
-│   ├── dreamina-cli.md                      # 即梦执行规范：可选文生图、用户指定时的图生视频和 manifest 回填
-│   ├── kling-api.md                         # 可灵图生视频 API 执行规范：默认视频 provider、任务查询和 manifest 回填
+│   ├── dreamina-cli.md                      # 即梦执行规范：可选文生图、默认图生视频和 manifest 回填
+│   ├── kling-api.md                         # 可灵图生视频 API 执行规范：用户指定 API 生视频时的任务查询和 manifest 回填
 │   ├── jianying-plan.md                     # 剪映方案规范：素材顺序、字幕旁白、待生成标记和首帧图片列
 │   └── seedance-cli.md                      # 即梦 CLI 底层参考：安装登录、查询下载和图生视频命令
 ├── templates/
@@ -59,11 +59,23 @@ outputs/<project>/
 
 ## Provider 选择规则
 
-生图 provider 必须由用户选择：`gpt-image-2` 使用 KFC V50 的 gpt-image-2 API，默认目标尺寸 `1152x2048`；`dreamina-cli` 使用即梦 CLI text2image，参数为 `--ratio=9:16` 和 `--resolution_type=2k`。
+生图 provider 默认使用 `gpt-image-2`。只有用户明确指定即梦、Dreamina 或 CLI 生图时，才使用 `dreamina-cli`。
 
-如果用户要求生成命令清单或实际生成素材，但没有指定生图 provider，先询问用户选择 `gpt-image-2` 还是 `dreamina-cli`，不要默认选择。
+生视频 provider 默认使用 `dreamina-cli`。只有用户明确指定可灵、Kling 或 API 生视频时，才使用 `kling-api`。
 
-生视频 provider 默认 `kling-api`；只有用户明确指定即梦、Dreamina、Seedance 或 CLI 生视频时，才使用 `dreamina-cli`。
+默认完整流程必须先生成全部首帧图片，并在图片确认环节暂停。用户确认全部图片可用后，才继续生成视频。
+
+## 图片确认与重生成规则
+
+实际生成图片时，必须先生成全部计划图片，然后暂停等待用户确认。
+
+用户逐张确认图片时：
+
+- 用户确认满意：在 `asset-manifest.json` 中标记该图片 `image_approved: true`。
+- 用户不满意但没有给修改意见：使用原 `image_prompt` 重新生成同一张图片，并回填新的任务 ID、远端 URL 或原始文件名。
+- 用户不满意且给了修改意见：将修改意见合并进原 `image_prompt`，生成 `image_revision_prompt`，再重新生成同一张图片，并回填新的任务 ID、远端 URL 或原始文件名。
+
+所有图片的 `image_approved` 都为 `true` 后，才允许进入生视频步骤。
 
 ## 标准执行流程
 
@@ -75,17 +87,20 @@ outputs/<project>/
 | 第 2 步 | 提炼痛点，规划剪辑思路 | `references/analysis-editing.md` | `01-analysis.md` |
 | 第 3 步 | 生成中文写实生图/图生视频提示词，估算每条视频时长，规划素材命名 | `references/prompt-spec.md` | `02-prompts.json`、`asset-manifest.json` |
 | 第 4 步 | 生成媒体命令/请求清单：按生图 provider 条件读取 `references/gpt-image-api.md` 或 `references/dreamina-cli.md`，按生视频 provider 条件读取 `references/kling-api.md` 或 `references/dreamina-cli.md` | 对应 provider 参考文件、`templates/media-commands.md` | `03-media-commands.md` |
-| 第 5 步 | 用户要求实际生成素材时，按 provider 路由生成首帧图片和视频；否则跳过 | 对应 provider 参考文件 | `images/`、`videos/`，并回填 `asset-manifest.json` |
-| 第 6 步 | 生成剪映草稿拼接方案 | `references/jianying-plan.md` | `jianying-draft-plan.md` |
-| 第 7 步 | 按完成前自检逐项检查 | 本文件“完成前自检” | 最终回复 |
+| 第 5 步 | 生成全部首帧图片并回填 manifest，然后暂停等待用户确认 | 对应 provider 参考文件 | `images/`、`asset-manifest.json` |
+| 第 6 步 | 图片确认与重生成：不满意无意见则原提示词重生成，有意见则合并修改意见后重生成 | 本文件“图片确认与重生成规则” | 已批准的 `asset-manifest.json` |
+| 第 7 步 | 全部图片确认后生成视频；默认使用 `dreamina-cli` | `references/dreamina-cli.md` 或用户指定 provider 参考文件 | `videos/`、回填 `asset-manifest.json` |
+| 第 8 步 | 生成剪映草稿；无可用草稿工具时生成剪映拼接方案 | `references/jianying-draft-builder.md`、`references/jianying-plan.md` | `jianying-draft/` 或 `jianying-draft-plan.md` |
+| 第 9 步 | 按完成前自检逐项检查 | 本文件“完成前自检” | 最终回复 |
 
 ## 按需执行规则
 
 - 用户只要痛点分析：执行第 1-2 步。
 - 用户只要提示词：执行第 1-3 步。
 - 用户要可复制的媒体生成命令/请求：执行第 1-4 步。
-- 用户要实际生成图片或视频：执行第 1-5 步。
-- 用户要剪映方案或完整资料：执行第 1-6 步。
+- 用户要实际生成图片：执行第 1-6 步。
+- 用户要实际生成视频：执行第 1-7 步。
+- 用户要剪映草稿、剪映方案或完整资料：执行第 1-8 步。
 
 结构校验可参考：
 
@@ -104,8 +119,15 @@ outputs/<project>/
 - `subtitle` 即该镜头旁白，用于估算 `duration_seconds`；不要单独创建 `voiceover` 字段。
 - `duration_seconds` 按 `subtitle` 语速估算，不固定为 5 秒。
 - 实际生成素材时必须维护 `asset-manifest.json`，回填 image/video provider、model、task ID、远端 URL 或原始文件名。
-- 即梦图生视频只有用户指定 `dreamina-cli` 视频 provider 时使用；该路径必须包含 `--model_version=seedance2.0fast` 和 `--video_resolution=720p`。
+- 未指定 provider 时，生图是否默认 `gpt-image-2`。
+- 未指定 provider 时，生视频是否默认 `dreamina-cli`。
+- 是否先生成全部图片并等待用户确认，而不是直接继续生成视频。
+- 用户不满意图片且未给修改意见时，是否使用原提示词重生成。
+- 用户不满意图片且给了修改意见时，是否将修改意见合并进提示词后重生成。
+- 是否只在全部图片确认后才生成视频。
+- 使用 `dreamina-cli` 视频 provider 时，即梦图生视频路径必须包含 `--model_version=seedance2.0fast` 和 `--video_resolution=720p`。
 - 没有剪映 MCP 时，只输出剪映草稿拼接方案，不声称已经创建草稿。
+- 是否没有在草稿工具不可用时声称已经创建剪映草稿。
 
 ## 完成前自检
 
@@ -120,7 +142,12 @@ outputs/<project>/
 - 每条 `duration_seconds` 是否按 `subtitle` 估算，并写明 `duration_basis`。
 - `asset-manifest.json` 是否记录计划文件名；实际生成后是否补充 provider、model、task ID、远端 URL 或原始文件名。
 - `03-media-commands.md` 的生图命令/请求、`--image` 或图片引用、`--duration` 或时长参数是否与 JSON 一致。
-- 生图 provider 是否由用户选择；未选择时是否先询问。
-- 生视频 provider 是否默认 `kling-api`，或在用户明确指定即梦、Dreamina、Seedance、CLI 生视频时才使用 `dreamina-cli`。
+- 未指定 provider 时，生图是否默认 `gpt-image-2`。
+- 未指定 provider 时，生视频是否默认 `dreamina-cli`。
+- 是否先生成全部图片并等待用户确认，而不是直接继续生成视频。
+- 用户不满意图片且未给修改意见时，是否使用原提示词重生成。
+- 用户不满意图片且给了修改意见时，是否将修改意见合并进提示词后重生成。
+- 是否只在全部图片确认后才生成视频。
 - 即梦参数 `--model_version=seedance2.0fast` 和 `--video_resolution=720p` 是否只在 `dreamina-cli` 视频 provider 下检查。
 - 剪映方案是否区分“已生成文件”和“待生成文件”，并保留首帧图片对应关系。
+- 是否没有在草稿工具不可用时声称已经创建剪映草稿。
