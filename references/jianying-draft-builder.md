@@ -1,6 +1,6 @@
 ---
 name: jianying-draft-builder
-description: 剪映草稿生成器规范，定义从 asset-manifest.json、视频、音频和字幕生成可打开剪映草稿的输入、输出和限制。
+description: 剪映草稿生成器规范，定义从 asset-manifest.json、视频、音频和字幕生成剪映时间线输入，或通过已验证工具生成原生草稿的输入、输出和限制。
 ---
 
 # 剪映草稿生成器规范
