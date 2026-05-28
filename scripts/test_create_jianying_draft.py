@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from create_jianying_draft import build_timeline, export_srt, load_manifest
+from create_jianying_draft import build_timeline, create_draft, export_srt, load_manifest
 
 
 def write_manifest(project_dir: Path, items: list[dict]) -> Path:
@@ -93,6 +93,26 @@ def test_build_timeline_preserves_zero_actual_video_duration(tmp_path: Path):
 
     assert timeline[0]["duration_seconds"] == 0.0
     assert timeline[1]["start_seconds"] == 0.0
+
+
+def test_create_draft_writes_timeline_json(tmp_path: Path):
+    timeline = [
+        {
+            "id": "pain-01",
+            "start_seconds": 0.0,
+            "duration_seconds": 5.5,
+            "video_file": "videos/pain-01.mp4",
+            "audio_file": None,
+            "subtitle": "订单越多，越容易乱。"
+        }
+    ]
+
+    draft_dir = create_draft(tmp_path, timeline)
+    timeline_path = draft_dir / "timeline.json"
+
+    assert draft_dir == tmp_path / "jianying-draft"
+    assert timeline_path.exists()
+    assert json.loads(timeline_path.read_text(encoding="utf-8")) == timeline
 
 
 def test_export_srt_writes_timeline_subtitles(tmp_path: Path):
