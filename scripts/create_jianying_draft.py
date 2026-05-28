@@ -16,7 +16,9 @@ def build_timeline(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
     timeline = []
     start_seconds = 0.0
     for item in items:
-        duration = item.get("video_actual_duration_seconds") or item["duration_seconds"]
+        duration = item.get("video_actual_duration_seconds")
+        if duration is None:
+            duration = item["duration_seconds"]
         duration = float(duration)
         timeline.append({
             "id": item["id"],

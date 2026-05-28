@@ -70,6 +70,31 @@ def test_build_timeline_uses_actual_video_duration_when_available(tmp_path: Path
     ]
 
 
+def test_build_timeline_preserves_zero_actual_video_duration(tmp_path: Path):
+    items = [
+        {
+            "id": "pain-01",
+            "video_file": "videos/pain-01.mp4",
+            "duration_seconds": 6,
+            "video_actual_duration_seconds": 0.0,
+            "subtitle": "订单越多，越容易乱。",
+            "image_approved": True
+        },
+        {
+            "id": "pain-02",
+            "video_file": "videos/pain-02.mp4",
+            "duration_seconds": 4,
+            "subtitle": "报价反复核，客户等不住。",
+            "image_approved": True
+        }
+    ]
+
+    timeline = build_timeline(items)
+
+    assert timeline[0]["duration_seconds"] == 0.0
+    assert timeline[1]["start_seconds"] == 0.0
+
+
 def test_export_srt_writes_timeline_subtitles(tmp_path: Path):
     timeline = [
         {
