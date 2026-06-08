@@ -34,6 +34,8 @@ dreamina user_credit
 
 只有当对应 provider 被选中时，才在 `03-media-commands.md` 输出 Dreamina 的文生图块或图生视频块。命令清单按痛点分组；Dreamina 文生图块包含文生图、下载重命名首帧，Dreamina 图生视频块包含图生视频、下载重命名视频。
 
+所有 Dreamina 命令都从 `product-video-pipeline/` 项目根目录执行，不要在命令清单里先 `cd ./outputs/<project>`。`--image`、`--download_dir` 和重命名目标必须都使用 `./outputs/<project>/...` 路径，避免 CLI 下载到 `outputs/<project>/outputs/<project>/...` 或重命名时找不到原始文件。
+
 如果提示词包含双引号或换行，改写为单行并转义，确保用户可以直接复制执行。
 
 ## 文生图执行规则
@@ -44,7 +46,7 @@ dreamina user_credit
 - `--resolution_type=2k`
 - `--poll=30`
 
-生成成功后下载到 `images/`。如果 CLI 返回任务 ID 但未自动下载，使用 `dreamina query_result --download_dir` 下载，并将该任务 ID 回填为 `image_task_id`。
+生成成功后下载到 `./outputs/<project>/images`。如果 CLI 返回任务 ID 但未自动下载，使用 `dreamina query_result --download_dir=./outputs/<project>/images` 下载，并将该任务 ID 回填为 `image_task_id`。
 
 即梦下载文件名可能是任务 ID 或乱码，不要让后续流程依赖它。下载后按 `02-prompts.json` 的 `image_file` 重命名，例如 `pain-01.png`。在 `asset-manifest.json` 回填：
 
@@ -69,7 +71,7 @@ Dreamina 视频 provider 下图生视频优先速度，使用：
 --video_resolution=720p
 ```
 
-生成成功后下载到 `videos/`，并按 `video_file` 重命名，例如 `pain-01.mp4`。在 `asset-manifest.json` 回填：
+生成成功后下载到每个素材专用临时目录，例如 `./outputs/<project>/videos/<id>.download.XXXXXX`，再移动到 `video_file`，例如 `videos/pain-01.mp4`。不要直接把多个任务下载到共享 `videos/` 后再猜最新文件；这会在重复执行或并发下载时重命名错文件。在 `asset-manifest.json` 回填：
 
 - `video_provider`: `dreamina-cli`
 - `video_model`: `seedance2.0fast`

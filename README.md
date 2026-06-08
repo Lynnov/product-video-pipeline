@@ -241,7 +241,12 @@ dreamina image2video \
 生成完成后查询并下载：
 
 ```bash
-dreamina query_result --submit_id=<video_task_id> --download_dir=./outputs/客户管理/videos
+download_dir=$(mktemp -d ./outputs/客户管理/videos/pain-01.download.XXXXXX)
+dreamina query_result --submit_id=<video_task_id> --download_dir="$download_dir"
+original_file=$(ls -t "$download_dir" | head -1)
+test -n "$original_file"
+mv "$download_dir/$original_file" ./outputs/客户管理/videos/pain-01.mp4
+rmdir "$download_dir"
 ```
 
 并回填：

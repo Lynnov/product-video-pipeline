@@ -5,3 +5,7 @@
 
 # Local runtime outputs
 outputs/
+
+# Local planning and scripts
+/docs/
+/视频脚本/*.md
