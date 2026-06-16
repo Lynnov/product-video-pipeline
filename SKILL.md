@@ -142,7 +142,7 @@ outputs/<project>/
 - 用户不满意图片且未给修改意见时，必须使用原提示词重生成。
 - 用户不满意图片且给了修改意见时，必须将修改意见合并进提示词后重生成。
 - 只在全部图片确认后才生成视频。
-- 使用 `dreamina-cli` 视频 provider 时，即梦图生视频路径必须包含 `--model_version=seedance2.0fast` 和 `--video_resolution=720p`。
+- 使用 `dreamina-cli` 视频 provider 时，即梦图生视频路径必须包含 `--model_version=seedance2.0fast-vip` 和 `--video_resolution=720p`。
 - 没有剪映 MCP 时，只输出剪映草稿拼接方案，不声称已经创建草稿。
 - 草稿工具不可用时，不要声称已经创建剪映草稿。
 
@@ -170,6 +170,6 @@ outputs/<project>/
 - 用户不满意图片且未给修改意见时，是否使用原提示词重生成。
 - 用户不满意图片且给了修改意见时，是否将修改意见合并进提示词后重生成。
 - 是否只在全部图片确认后才生成视频。
-- 即梦参数 `--model_version=seedance2.0fast` 和 `--video_resolution=720p` 是否只在 `dreamina-cli` 视频 provider 下检查。
+- 即梦参数 `--model_version=seedance2.0fast-vip` 和 `--video_resolution=720p` 是否只在 `dreamina-cli` 视频 provider 下检查。
 - 剪映方案是否区分“已生成文件”和“待生成文件”，并保留首帧图片对应关系。
 - 是否没有在草稿工具不可用时声称已经创建剪映草稿。

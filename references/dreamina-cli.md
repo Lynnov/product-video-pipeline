@@ -1,6 +1,6 @@
 ---
 name: dreamina-cli
-description: 易纸箱视频流程中用户选择或指定即梦 CLI 时的执行规范，定义 text2image、image2video、seedance2.0fast 参数和 manifest 回填规则。
+description: 易纸箱视频流程中用户选择或指定即梦 CLI 时的执行规范，定义 text2image、image2video、seedance2.0fast-vip 参数和 manifest 回填规则。
 ---
 
 # 即梦 CLI 执行规范
@@ -67,14 +67,14 @@ dreamina user_credit
 Dreamina 视频 provider 下图生视频优先速度，使用：
 
 ```bash
---model_version=seedance2.0fast
+--model_version=seedance2.0fast-vip
 --video_resolution=720p
 ```
 
 生成成功后下载到每个素材专用临时目录，例如 `./outputs/<project>/videos/<id>.download.XXXXXX`，再移动到 `video_file`，例如 `videos/pain-01.mp4`。不要直接把多个任务下载到共享 `videos/` 后再猜最新文件；这会在重复执行或并发下载时重命名错文件。在 `asset-manifest.json` 回填：
 
 - `video_provider`: `dreamina-cli`
-- `video_model`: `seedance2.0fast`
+- `video_model`: `seedance2.0fast-vip`
 - `video_task_id`
 - `video_original_file`
 - `video_actual_duration_seconds`，如果 CLI 返回实际时长

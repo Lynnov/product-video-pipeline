@@ -16,7 +16,7 @@
     {
       "id": 3,
       "prompt": "我有一段易纸箱产品介绍：纸箱厂报价慢、客户催单、生产进度不透明、业务和车间反复电话确认。后面卖点是手机接单、进度同步、报价模板和客户跟进。请生成痛点镜头的 AI 生图/图生视频提示词，并给我 dreamina 命令清单；如果 CLI 没装，也要能让我复制命令执行。",
-      "expected_output": "应生成痛点分析、合法 JSON 提示词、asset-manifest.json 和 03-media-commands.md；将 dreamina-cli 视为用户明确指定的生图命令 provider；02-prompts.json 每条包含 aspect_ratio=9:16 和 image_size=1152x2048；即梦 text2image 命令使用 --ratio=9:16 和 --resolution_type=2k；图片下载后按痛点 ID 重命名；如同时输出即梦/Dreamina/Seedance/CLI 图生视频命令，image2video 的 --image 使用重命名后的首帧路径，--duration 使用估算时长，并明确包含 --model_version=seedance2.0fast 和 --video_resolution=720p。",
+      "expected_output": "应生成痛点分析、合法 JSON 提示词、asset-manifest.json 和 03-media-commands.md；将 dreamina-cli 视为用户明确指定的生图命令 provider；02-prompts.json 每条包含 aspect_ratio=9:16 和 image_size=1152x2048；即梦 text2image 命令使用 --ratio=9:16 和 --resolution_type=2k；图片下载后按痛点 ID 重命名；如同时输出即梦/Dreamina/Seedance/CLI 图生视频命令，image2video 的 --image 使用重命名后的首帧路径，--duration 使用估算时长，并明确包含 --model_version=seedance2.0fast-vip 和 --video_resolution=720p。",
       "files": []
     },
     {

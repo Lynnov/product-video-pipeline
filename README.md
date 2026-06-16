@@ -126,7 +126,7 @@ KLING_SECRET_KEY=your-kling-secret-key
 
 | Provider | 用途 | 说明 |
 | --- | --- | --- |
-| `dreamina-cli` | 默认图生视频路径 | 使用 `dreamina image2video`，默认 `seedance2.0fast`、720p。 |
+| `dreamina-cli` | 默认图生视频路径 | 使用 `dreamina image2video`，默认 `seedance2.0fast-vip`、720p。 |
 | `kling-api` | 用户明确指定可灵、Kling 或 API 生视频时使用 | 使用可灵 API 图生视频接口。 |
 
 ## 图片确认与重生成规则
@@ -233,7 +233,7 @@ dreamina image2video \
   --image ./outputs/客户管理/images/pain-01.png \
   --prompt="<video_prompt>" \
   --duration=<duration_seconds> \
-  --model_version=seedance2.0fast \
+  --model_version=seedance2.0fast-vip \
   --video_resolution=720p \
   --poll=30
 ```
@@ -254,7 +254,7 @@ rmdir "$download_dir"
 ```json
 {
   "video_provider": "dreamina-cli",
-  "video_model": "seedance2.0fast",
+  "video_model": "seedance2.0fast-vip",
   "video_task_id": "...",
   "video_original_file": "...",
   "video_actual_duration_seconds": 6.0

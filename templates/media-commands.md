@@ -125,7 +125,7 @@ dreamina image2video \
   --image ./outputs/<project>/images/<id>.png \
   --prompt="<video_prompt>" \
   --duration=<duration_seconds> \
-  --model_version=seedance2.0fast \
+  --model_version=seedance2.0fast-vip \
   --video_resolution=720p \
   --poll=30
 ```
@@ -151,4 +151,4 @@ rmdir "$download_dir"
 按选中的生视频 provider 回填：`video_provider`、`video_model`、`video_task_id`、`video_original_url`、`video_original_file`、`video_actual_duration_seconds`。
 
 - `kling-api`：只有实际请求或接口响应中有明确模型名时才回填 `video_model`；没有则填 `null`，不要伪造模型名或 endpoint。按接口响应回填 `video_task_id`、`video_original_url`、`video_original_file` 和 `video_actual_duration_seconds`；缺失字段填 `null`。
-- `dreamina-cli` 视频：CLI 查询里的 `--submit_id=<video_task_id>` 只是 CLI 参数占位，manifest 仍写 `video_task_id`。回填 `video_provider: dreamina-cli`、`video_model: seedance2.0fast`、`video_original_file` 和 `video_actual_duration_seconds`；如没有原始 URL，则 `video_original_url` 填 `null`。
+- `dreamina-cli` 视频：CLI 查询里的 `--submit_id=<video_task_id>` 只是 CLI 参数占位，manifest 仍写 `video_task_id`。回填 `video_provider: dreamina-cli`、`video_model: seedance2.0fast-vip`、`video_original_file` 和 `video_actual_duration_seconds`；如没有原始 URL，则 `video_original_url` 填 `null`。
