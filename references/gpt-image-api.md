@@ -12,9 +12,9 @@ description: RightCode Draw 第三方 gpt-image-2 生图接口参考，供易纸
 - Provider: RightCode Draw
 - 主通道名称：`kfcv50-primary`
 - 备用通道名称：`kfcv50-fallback`
-- Request URL: `https://www.right.codes/draw`
-- Method: `POST`
-- `KFCV50_BASE_URL` 当前按完整 RightCode Draw 请求地址使用，默认值为 `https://www.right.codes/draw`
+- Base URL: `https://www.right.codes/draw`
+- Endpoint: `POST /v1/images/generations`
+- Full URL: `https://www.right.codes/draw/v1/images/generations`
 - 主 API 环境变量：`KFCV50_API_KEY`、`KFCV50_BASE_URL`、`KFCV50_IMAGE_MODEL`
 - 备用 API 环境变量：`KFCV50_FALLBACK_ENABLED`、`KFCV50_FALLBACK_API_KEY`、`KFCV50_FALLBACK_BASE_URL`、`KFCV50_FALLBACK_IMAGE_MODEL`
 - 鉴权头：`Authorization: Bearer $KFCV50_API_KEY`
@@ -66,7 +66,7 @@ description: RightCode Draw 第三方 gpt-image-2 生图接口参考，供易纸
 正式请求前只检查配置，不消耗额度：
 
 - `.env` 或系统环境变量中存在 `KFCV50_API_KEY`。
-- `KFCV50_BASE_URL` 为空时使用完整请求地址 `https://www.right.codes/draw`。
+- `KFCV50_BASE_URL` 为空时使用 `https://www.right.codes/draw`。
 - `KFCV50_IMAGE_MODEL` 为空时使用 `gpt-image-2`。
 - `KFCV50_FALLBACK_ENABLED=true` 时，`KFCV50_FALLBACK_API_KEY`、`KFCV50_FALLBACK_BASE_URL`、`KFCV50_FALLBACK_IMAGE_MODEL` 必须同时非空。
 
@@ -105,7 +105,7 @@ description: RightCode Draw 第三方 gpt-image-2 生图接口参考，供易纸
 ## Curl 示例
 
 ```bash
-curl "https://www.right.codes/draw" \
+curl "https://www.right.codes/draw/v1/images/generations" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $KFCV50_API_KEY" \
   -d '{

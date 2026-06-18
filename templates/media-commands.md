@@ -70,7 +70,7 @@ test -n "$KLING_SECRET_KEY"
 ### 首帧生图：gpt-image-2
 
 ```bash
-curl -X POST "${KFCV50_BASE_URL:-https://www.right.codes/draw}" \
+curl -X POST "${KFCV50_BASE_URL:-https://www.right.codes/draw}/v1/images/generations" \
   -H "Authorization: Bearer $KFCV50_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
