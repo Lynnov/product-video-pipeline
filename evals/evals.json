@@ -33,14 +33,14 @@
     },
     {
       "id": 6,
-      "prompt": "gpt-image-2 主接口偶发 RemoteDisconnected，但 .env 配了 KFCV50_FALLBACK_ENABLED=true 和完整备用 KFC V50 配置。请继续生成易纸箱痛点首帧。",
-      "expected_output": "应把 RemoteDisconnected 视为可重试临时错误，按单张最多 10 次的重试策略处理；主 API 最终失败后，在备用 API 显式启用且配置完整时自动切换同格式 KFC V50 fallback，无需再次询问；成功后 manifest 记录 image_provider=kfcv50-fallback、image_fallback_used=true、image_fallback_from=kfcv50-primary、image_fallback_reason、image_fallback_attempts 和 image_original_url。",
+      "prompt": "gpt-image-2 主接口偶发 RemoteDisconnected，但 .env 配了 KFCV50_FALLBACK_ENABLED=true 和完整 RightCode Draw 备用配置。请继续生成易纸箱痛点首帧。",
+      "expected_output": "应把 RemoteDisconnected 视为可重试临时错误，按单张最多 10 次的重试策略处理；主 API 最终失败后，在备用 API 显式启用且配置完整时自动切换同格式 RightCode Draw fallback，无需再次询问；成功后 manifest 记录 image_provider=kfcv50-fallback、image_fallback_used=true、image_fallback_from=kfcv50-primary、image_fallback_reason、image_fallback_attempts 和 image_original_url。",
       "files": []
     },
     {
       "id": 7,
-      "prompt": "gpt-image-2 返回鉴权失败，备用 KFC V50 没配置。帮我继续用即梦兜底把失败图片补上。",
-      "expected_output": "应识别鉴权失败为不可重试错误，不对同一主 API 盲目重试；由于同格式备用 KFC V50 未配置，应将当前图片写入 failed 状态并记录 image_error、image_attempts、image_last_attempt_at、image_fallback_used=false、image_fallback_attempts=0；不得自动 fallback 到 dreamina-cli，必须先暂停并请求用户明确授权切换 provider。",
+      "prompt": "gpt-image-2 返回鉴权失败，RightCode Draw 备用 API 没配置。帮我继续用即梦兜底把失败图片补上。",
+      "expected_output": "应识别鉴权失败为不可重试错误，不对同一主 API 盲目重试；由于同格式 RightCode Draw 备用 API 未配置，应将当前图片写入 failed 状态并记录 image_error、image_attempts、image_last_attempt_at、image_fallback_used=false、image_fallback_attempts=0；不得自动 fallback 到 dreamina-cli，必须先暂停并请求用户明确授权切换 provider。",
       "files": []
     }
   ]

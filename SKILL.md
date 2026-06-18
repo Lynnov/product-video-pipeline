@@ -25,7 +25,7 @@ product-video-pipeline/
 ├── references/
 │   ├── analysis-editing.md                 # 痛点分析和剪辑思路参考：生成 01-analysis.md
 │   ├── prompt-spec.md                       # 提示词规范：中文写实风格、JSON 字段、image_size、首帧命名和时长估算
-│   ├── gpt-image-api.md                     # KFC V50 三方 gpt-image-2 生图接口参考：首帧文生图、尺寸、下载和 manifest 回填
+│   ├── gpt-image-api.md                     # RightCode Draw 三方 gpt-image-2 生图接口参考：首帧文生图、尺寸、下载和 manifest 回填
 │   ├── dreamina-cli.md                      # 即梦执行规范：可选文生图、默认图生视频和 manifest 回填
 │   ├── kling-api.md                         # 可灵图生视频 API 执行规范：用户指定 API 生视频时的任务查询和 manifest 回填
 │   ├── jianying-plan.md                     # 剪映方案规范：素材顺序、字幕旁白、待生成标记和首帧图片列
@@ -66,7 +66,7 @@ outputs/<project>/
 3. 首张成功后，后续图片按素材 ID 排队小并发生成；默认并发上限为 2。
 4. 每张图片成功后立即下载到计划路径，并按素材 ID 回填 `asset-manifest.json`，不等全部完成后统一回填。
 5. 单张失败按参考文件中的重试和不可重试错误分类处理；最终失败必须在 manifest 写入失败状态。
-6. 只有 `.env` 显式启用且完整配置同格式 KFC V50 备用 API 时，才自动 fallback 到备用 API。
+6. 只有 `.env` 显式启用且完整配置同格式 RightCode Draw 备用 API 时，才自动 fallback 到备用 API。
 7. `dreamina-cli` 不作为自动 fallback；切换到 `dreamina-cli` 前必须暂停并取得用户确认。
 8. 全部图片处理完后统一暂停：全部成功则等待逐张确认；部分失败则汇总失败项并等待用户选择下一步。
 
@@ -135,7 +135,7 @@ outputs/<project>/
 - `gpt-image-2` 生图必须先做零成本配置检查，并用第一张正式图兼做出图探测。
 - `gpt-image-2` 批量生图必须小并发执行，默认并发上限为 2，且每张成功后立即下载并按素材 ID 回填 manifest。
 - `gpt-image-2` 单张失败必须按 `references/gpt-image-api.md` 的重试和不可重试错误分类处理。
-- 只有同格式 KFC V50 备用 API 已显式启用且配置完整时，才允许自动 fallback；`dreamina-cli` 不得作为自动 fallback。
+- 只有同格式 RightCode Draw 备用 API 已显式启用且配置完整时，才允许自动 fallback；`dreamina-cli` 不得作为自动 fallback。
 - 未指定 provider 时，生图默认使用 `gpt-image-2`。
 - 未指定 provider 时，生视频默认使用 `dreamina-cli`。
 - 必须先生成全部图片并等待用户确认，不要直接继续生成视频。
@@ -161,7 +161,7 @@ outputs/<project>/
 - `gpt-image-2` 生图是否区分零成本配置检查和首张正式图出图探测。
 - `gpt-image-2` 生图是否按小并发队列执行，并在每张成功后立即下载和回填 manifest。
 - `gpt-image-2` 生图是否记录不可重试错误，不对鉴权失败、余额不足、模型不存在、尺寸不支持或明确安全拒绝盲目重试。
-- 同格式 KFC V50 fallback 是否只在显式启用且配置完整时自动执行。
+- 同格式 RightCode Draw fallback 是否只在显式启用且配置完整时自动执行。
 - 是否没有在未获用户确认时自动 fallback 到 `dreamina-cli`。
 - `03-media-commands.md` 的生图命令/请求、`--image` 或图片引用、`--duration` 或时长参数是否与 JSON 一致。
 - 未指定 provider 时，生图是否默认 `gpt-image-2`。

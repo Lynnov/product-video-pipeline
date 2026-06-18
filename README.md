@@ -92,7 +92,13 @@ cp .env.example .env
 按需填写：
 
 ```bash
-KFCV50_API_KEY=your-kfcv50-api-key
+KFCV50_API_KEY=your-rightcode-api-key
+KFCV50_BASE_URL=https://www.right.codes/draw
+KFCV50_IMAGE_MODEL=gpt-image-2
+KFCV50_FALLBACK_ENABLED=false
+KFCV50_FALLBACK_API_KEY=your-rightcode-fallback-api-key
+KFCV50_FALLBACK_BASE_URL=https://www.right.codes/draw
+KFCV50_FALLBACK_IMAGE_MODEL=gpt-image-2-vip
 KLING_ACCESS_KEY=your-kling-access-key
 KLING_SECRET_KEY=your-kling-secret-key
 ```
@@ -101,7 +107,13 @@ KLING_SECRET_KEY=your-kling-secret-key
 
 | 变量 | 是否必需 | 用途 |
 | --- | --- | --- |
-| `KFCV50_API_KEY` | 使用 `gpt-image-2` 生图时必需 | 调用 KFC V50 中转的 `gpt-image-2` 图片生成接口。 |
+| `KFCV50_API_KEY` | 使用 `gpt-image-2` 生图时必需 | RightCode Draw API Key。变量名前缀保留为 `KFCV50_` 以兼容现有 skill 模板。 |
+| `KFCV50_BASE_URL` | 使用 `gpt-image-2` 生图时建议填写 | RightCode Draw 完整请求地址，当前默认 `https://www.right.codes/draw`，不要再追加 `/v1/images/generations`。 |
+| `KFCV50_IMAGE_MODEL` | 使用 `gpt-image-2` 生图时建议填写 | 主通道模型名，默认 `gpt-image-2`。 |
+| `KFCV50_FALLBACK_ENABLED` | 可选 | 是否启用同格式 RightCode Draw 备用生图通道，默认 `false`。 |
+| `KFCV50_FALLBACK_API_KEY` | 启用备用通道时必需 | RightCode Draw 备用通道 API Key。 |
+| `KFCV50_FALLBACK_BASE_URL` | 启用备用通道时必需 | RightCode Draw 备用通道完整请求地址。 |
+| `KFCV50_FALLBACK_IMAGE_MODEL` | 启用备用通道时必需 | RightCode Draw 备用通道模型名，例如 `gpt-image-2-vip`。 |
 | `KLING_ACCESS_KEY` | 使用可灵 API 生视频时必需 | 可灵 API Access Key。 |
 | `KLING_SECRET_KEY` | 使用可灵 API 生视频时必需 | 可灵 API Secret Key，用于生成 JWT。 |
 
@@ -119,8 +131,8 @@ KLING_SECRET_KEY=your-kling-secret-key
 
 | Provider | 用途 | 说明 |
 | --- | --- | --- |
-| `gpt-image-2` | 默认 API 生图路径 | 使用 KFC V50 中转接口，目标尺寸为 `1152x2048`。 |
-| `dreamina-cli` | 用户明确指定即梦、Dreamina 或 CLI 生图时使用 | 使用 `dreamina text2image --ratio=9:16 --resolution_type=2k`。 |
+| `gpt-image-2` | 默认 API 生图路径 | 使用 RightCode Draw 完整请求地址，目标尺寸为 `1152x2048`；仅在 `KFCV50_FALLBACK_ENABLED=true` 且备用配置完整时自动切到同格式备用通道。 |
+| `dreamina-cli` | 用户明确指定即梦、Dreamina 或 CLI 生图时使用 | 使用 `dreamina text2image --ratio=9:16 --resolution_type=2k`；不会作为 `gpt-image-2` 的自动 fallback。 |
 
 ### 生视频 provider
 

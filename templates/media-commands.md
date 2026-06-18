@@ -38,7 +38,7 @@ if [ -f .env ]; then
   set +a
 fi
 test -n "${KFCV50_API_KEY:-}"
-test -n "${KFCV50_BASE_URL:-https://kfcv50.link}"
+test -n "${KFCV50_BASE_URL:-https://www.right.codes/draw}"
 test -n "${KFCV50_IMAGE_MODEL:-gpt-image-2}"
 if [ "${KFCV50_FALLBACK_ENABLED:-false}" = "true" ]; then
   test -n "${KFCV50_FALLBACK_API_KEY:-}"
@@ -70,7 +70,7 @@ test -n "$KLING_SECRET_KEY"
 ### 首帧生图：gpt-image-2
 
 ```bash
-curl -X POST "${KFCV50_BASE_URL:-https://kfcv50.link}/v1/images/generations" \
+curl -X POST "${KFCV50_BASE_URL:-https://www.right.codes/draw}" \
   -H "Authorization: Bearer $KFCV50_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -84,7 +84,7 @@ curl -X POST "${KFCV50_BASE_URL:-https://kfcv50.link}/v1/images/generations" \
 
 下载响应中的 `data[0].url` 到 `./outputs/<project>/images/<id>.png`，并立即回填该素材的 `image_status`、`image_attempts`、`image_provider`、`image_model`、`image_original_url`、`image_fallback_*` 和 `image_approved: false`。
 
-临时错误按 10 次重试处理；鉴权失败、余额不足、模型不存在、尺寸不支持和明确的 prompt 安全拒绝不盲目重试同一主 API。若 `KFCV50_FALLBACK_ENABLED=true` 且备用配置完整，自动切换同格式 KFC V50 备用 API；不得自动切换到 `dreamina-cli`。
+临时错误按 10 次重试处理；鉴权失败、余额不足、模型不存在、尺寸不支持和明确的 prompt 安全拒绝不盲目重试同一主 API。若 `KFCV50_FALLBACK_ENABLED=true` 且备用配置完整，自动切换同格式 RightCode Draw 备用 API；不得自动切换到 `dreamina-cli`。
 
 ### 首帧生图：dreamina-cli
 
